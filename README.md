@@ -1,6 +1,6 @@
 # Eza Muhinzi Farming Hub
 
-Eza Muhinzi is a digital farming hub designed to help farmers access practical information and useful tools for stronger harvests. It is being built for Rwanda's farming community, with English and Kinyarwanda support planned.
+Eza Muhinzi is a digital farming hub designed to help farmers access practical information and useful tools for stronger harvests. It is being built for Rwanda's farming community, with Kinyarwanda as the primary language and English available throughout the app.
 
 **Mu Kinyarwanda:** Eza Muhinzi ni urubuga rw'ikoranabuhanga rugamije gufasha abahinzi kubona amakuru n'ibikoresho bifatika bibafasha kongera umusaruro. Ruri kubakwa hagamijwe abahinzi bo mu Rwanda, mu Cyongereza no mu Kinyarwanda.
 
@@ -12,7 +12,7 @@ Eza Muhinzi is a digital farming hub designed to help farmers access practical i
 - Vite and Nitro for development and server rendering
 - Bun for package management and scripts
 
-Planned architecture includes Supabase Auth/Postgres, react-i18next, server-side AI integrations, and a mapping provider. These are not yet implemented; see Phase 0 scope.
+Phase 1 includes bilingual UI, Supabase Auth, login and signup, and a protected application shell. AI integrations, marketplace features, and the broader data layer are outside the current phase. Authentication uses the Supabase Auth HTTP API with the public URL and anon key.
 
 ## Run locally
 
