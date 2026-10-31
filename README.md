@@ -1,24 +1,46 @@
 # Eza Muhinzi Farming Hub
 
-Imported website: https://ezamuhinzi.lovable.app
+Eza Muhinzi is a digital farming hub designed to help farmers access practical information and useful tools for stronger harvests. It is being built for Rwanda's farming community, with English and Kinyarwanda support planned.
 
-This project was built with [Lovable](https://lovable.dev).
+**Mu Kinyarwanda:** Eza Muhinzi ni urubuga rw'ikoranabuhanga rugamije gufasha abahinzi kubona amakuru n'ibikoresho bifatika bibafasha kongera umusaruro. Ruri kubakwa hagamijwe abahinzi bo mu Rwanda, mu Cyongereza no mu Kinyarwanda.
 
-## Build with Lovable
+## Technology
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/23ec8021-febd-488c-bc6f-b9b4ae81ec0b).
+- TanStack Start with React and TypeScript
+- Tailwind CSS v4 and shadcn/ui components
+- TanStack Router and TanStack Query
+- Vite and Nitro for development and server rendering
+- Bun for package management and scripts
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+Planned architecture includes Supabase Auth/Postgres, react-i18next, server-side AI integrations, and a mapping provider. These are not yet implemented; see Phase 0 scope.
 
-## Development
+## Run locally
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Install [Bun](https://bun.sh/) and then run:
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+bun install
+bun run dev
 ```
+
+Vite prints the local development URL when the server is ready. Use `bun run build` to create a production build.
+
+## Environment variables
+
+Copy `.env.example` to `.env.local` and fill in only values needed for your local work. Never commit real credentials. `VITE_` values are included in client bundles and must be public values only. Keep AI provider keys server-side.
+
+| Variable | Purpose |
+| --- | --- |
+| `VITE_SUPABASE_URL` | Supabase project URL (public configuration) |
+| `VITE_SUPABASE_ANON_KEY` | Supabase anon/publishable key; protect data with RLS |
+| `OPENAI_API_KEY` | Server-side OpenAI credential |
+| `GROK_API_KEY` | Server-side Grok credential |
+| `VITE_APP_URL` | Public app URL; defaults to local development URL |
+
+See [SECURITY.md](SECURITY.md) before adding integrations or endpoints.
+
+## Contributing
+
+Keep changes focused, use TypeScript, and follow the existing component and routing conventions. Do not introduce product features outside the agreed phase. Before opening a change, run the relevant checks (at minimum `bun run build` for application changes) and document any checks that could not run.
+
+This repository is connected to Lovable. Commits pushed to the connected branch sync to the Lovable editor; avoid rewriting published history. Local commits do not publish or push automatically.
