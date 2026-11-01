@@ -5,6 +5,13 @@
 //     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { loadEnv } from "vite";
+
+// Keep unprefixed provider credentials server-side while allowing local .env.local use.
+const localEnv = loadEnv(process.env["NODE_ENV"] ?? "development", process.cwd(), "");
+for (const key of ["GEMINI_API_KEY", "GEMINI_MODEL"]) {
+  if (!process.env[key] && localEnv[key]) process.env[key] = localEnv[key];
+}
 
 export default defineConfig({
   tanstackStart: {

@@ -18,6 +18,17 @@ export const translations = {
     checkEmail: "Reba imeyili yawe kugira ngo wemeze konti yawe.", configMissing: "Shyiramo VITE_SUPABASE_URL na VITE_SUPABASE_ANON_KEY muri .env.local kugira ngo ukoreshe konti.",
     appTitle: "Ahabanza", appWelcome: "Murakaza neza kuri Eza Muhinzi.", appBody: "Aha ni ho uzasanga ibikoresho byawe by'ubuhinzi.", signOut: "Sohoka",
     home: "Ahabanza", dashboard: "Incamake", backHome: "Subira ahabanza",
+    diagnose: "Suzuma indwara", diagnoseTitle: "Suzuma ubuzima bw’igihingwa", diagnoseIntro: "Fata cyangwa wohereze ifoto isobanutse y’igihingwa. Tuzagufasha kumenya ibimenyetso no kubona inama zo kwitaho.",
+    choosePhoto: "Hitamo ifoto", takePhoto: "Fata ifoto", crop: "Igihingwa", selectCrop: "Hitamo igihingwa", cropCorn: "Ibigori", cropBeans: "Ibishyimbo", cropCassava: "Imyumbati", cropPotato: "Ibirayi", cropOther: "Ikindi",
+    photoHint: "PNG, JPG cyangwa WEBP · ntirenge 5 MB", removePhoto: "Kuraho ifoto", analyze: "Suzuma ifoto", analyzing: "Turimo gusuzuma ifoto...",
+    diagnosisResult: "Ibyavuye mu isuzuma", resultPlaceholder: "Hitamo ifoto kugira ngo ubone ibisubizo hano.", confidence: "Icyizere cy’isuzuma", treatment: "Uko wakivura", prevention: "Uko wakirinda",
+    notCrop: "Iyi foto isa n’itagaragaza igihingwa neza. Fata indi foto y’amababi cyangwa uruti rugaragaza ibimenyetso.",
+    resultCaution: "Iyi ni inama y’ibanze yakozwe na AI, si isuzuma ry’impuguke. Niba ikibazo gikomeje, baza umujyanama w’ubuhinzi.",
+    history: "Isuzuma riheruka", noHistory: "Isuzuma ryawe rizagaragara hano.", imageRequired: "Banza uhitemo ifoto y’igihingwa.", invalidImage: "Hitamo ifoto ya PNG, JPG cyangwa WEBP itarengeje 5 MB.",
+    diagnosisFailed: "Isuzuma ntiryashobotse. Ongera ugerageze.", rateLimited: "Wakoze amasuzuma menshi. Ongera ugerageze nyuma y’igihe gito.", configAiMissing: "Serivisi y’isuzuma ntirashyirwaho. Menyesha umuyobozi w’urubuga.",
+    databaseSetup: "Imbonerahamwe y’amateka ntiyashyizweho. Shyira mu bikorwa migration ya Supabase.",
+    confidenceNote: "Ijanisha ni igereranya rya AI gusa.", openCamera: "Fungura kamera",
+
   },
   en: {
     brand: "Eza Muhinzi", navHome: "Home", navLogin: "Log in", navSignup: "Get started",
@@ -36,6 +47,17 @@ export const translations = {
     checkEmail: "Check your email to confirm your account.", configMissing: "Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to .env.local to enable accounts.",
     appTitle: "Your space", appWelcome: "Welcome to Eza Muhinzi.", appBody: "Your farming tools will live here.", signOut: "Log out",
     home: "Home", dashboard: "Overview", backHome: "Back to home",
+    diagnose: "Diagnose a crop", diagnoseTitle: "Check your crop’s health", diagnoseIntro: "Take or upload a clear photo of your crop. We’ll help you review visible symptoms and find practical next steps.",
+    choosePhoto: "Choose a photo", takePhoto: "Take a photo", crop: "Crop", selectCrop: "Select a crop", cropCorn: "Maize", cropBeans: "Beans", cropCassava: "Cassava", cropPotato: "Potato", cropOther: "Other",
+    photoHint: "PNG, JPG or WEBP · up to 5 MB", removePhoto: "Remove photo", analyze: "Analyze photo", analyzing: "Looking at your photo...",
+    diagnosisResult: "Diagnosis results", resultPlaceholder: "Choose a photo to see your results here.", confidence: "Estimated confidence", treatment: "What to do", prevention: "How to prevent it",
+    notCrop: "This photo doesn’t clearly show a crop. Try another photo of the affected leaves or stem.",
+    resultCaution: "This is an AI-generated starting point, not an expert diagnosis. If the problem persists, contact an agricultural extension worker.",
+    history: "Recent diagnoses", noHistory: "Your diagnoses will appear here.", imageRequired: "Choose a crop photo first.", invalidImage: "Choose a PNG, JPG or WEBP photo no larger than 5 MB.",
+    diagnosisFailed: "We couldn’t complete the diagnosis. Please try again.", rateLimited: "You’ve made several diagnoses. Please try again shortly.", configAiMissing: "The diagnosis service isn’t configured yet. Please contact the site administrator.",
+    databaseSetup: "The diagnosis history table isn’t ready. Apply the Supabase migration first.",
+    confidenceNote: "This percentage is an AI estimate only.", openCamera: "Open camera",
+
   },
 } as const;
 
