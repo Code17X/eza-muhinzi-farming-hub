@@ -15,11 +15,16 @@ export const Route = createFileRoute("/api/diagnose")({
       const auth = await authenticate(request);
       if (!auth) return json({ error: "unauthorized" }, 401);
       const { supabaseUrl, anonKey } = getSupabaseConfig();
+      const requestUrl = new URL(request.url);
+      const limit = Math.max(1, Math.min(50, Number.parseInt(requestUrl.searchParams.get("limit") ?? "10", 10) || 10));
+      const offset = Math.max(0, Number.parseInt(requestUrl.searchParams.get("offset") ?? "0", 10) || 0);
       const url = new URL(supabaseUrl + "/rest/v1/diagnosis_history");
-      url.search = new URLSearchParams({ select: "id,crop_name,result,created_at", user_id: "eq." + auth.userId, order: "created_at.desc", limit: "10" }).toString();
-      const response = await fetch(url, { headers: { apikey: anonKey, Authorization: "Bearer " + auth.accessToken } });
+      url.search = new URLSearchParams({ select: "id,crop_name,result,created_at", user_id: "eq." + auth.userId, order: "created_at.desc", limit: String(limit), offset: String(offset) }).toString();
+      const response = await fetch(url, { headers: { apikey: anonKey, Authorization: "Bearer " + auth.accessToken, Prefer: "count=exact" } });
       if (!response.ok) return json({ error: isMissingHistory(response) ? "history_setup_required" : "history_unavailable" }, isMissingHistory(response) ? 503 : 502);
-      return json({ history: await response.json() });
+      const history = await response.json();
+      const total = Number(response.headers.get("content-range")?.split("/").at(-1));
+      return json({ history, total: Number.isFinite(total) ? total : offset + history.length });
     },
     POST: async ({ request }) => {
       const auth = await authenticate(request);

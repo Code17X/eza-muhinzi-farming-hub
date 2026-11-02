@@ -16,6 +16,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ApiDiagnoseRouteImport } from './routes/api.diagnose'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppDiagnoseRouteImport } from './routes/app.diagnose'
+import { Route as AppHistoryRouteImport } from './routes/app.history'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +53,11 @@ const AppDiagnoseRoute = AppDiagnoseRouteImport.update({
   path: '/diagnose',
   getParentRoute: () => AppRoute,
 } as any)
+const AppHistoryRoute = AppHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/api/diagnose': typeof ApiDiagnoseRoute
   '/app/diagnose': typeof AppDiagnoseRoute
+  '/app/history': typeof AppHistoryRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/api/diagnose': typeof ApiDiagnoseRoute
   '/app/diagnose': typeof AppDiagnoseRoute
+  '/app/history': typeof AppHistoryRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/api/diagnose': typeof ApiDiagnoseRoute
   '/app/diagnose': typeof AppDiagnoseRoute
+  '/app/history': typeof AppHistoryRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -89,9 +98,17 @@ export interface FileRouteTypes {
     | '/signup'
     | '/api/diagnose'
     | '/app/diagnose'
+    | '/app/history'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup' | '/api/diagnose' | '/app/diagnose' | '/app'
+  to:
+    | '/'
+    | '/login'
+    | '/signup'
+    | '/api/diagnose'
+    | '/app/diagnose'
+    | '/app/history'
+    | '/app'
   id:
     | '__root__'
     | '/'
@@ -100,6 +117,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/api/diagnose'
     | '/app/diagnose'
+    | '/app/history'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
@@ -162,16 +180,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDiagnoseRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/history': {
+      id: '/app/history'
+      path: '/history'
+      fullPath: '/app/history'
+      preLoaderRoute: typeof AppHistoryRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
   AppDiagnoseRoute: typeof AppDiagnoseRoute
+  AppHistoryRoute: typeof AppHistoryRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppDiagnoseRoute: AppDiagnoseRoute,
+  AppHistoryRoute: AppHistoryRoute,
   AppIndexRoute: AppIndexRoute,
 }
 

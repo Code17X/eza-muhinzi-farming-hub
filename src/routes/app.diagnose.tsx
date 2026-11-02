@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Camera, Check, Clock3, ImagePlus, Leaf, LoaderCircle, ShieldCheck, Sparkles, Upload, X } from "lucide-react";
 import { useAuth } from "@/features/auth/auth-context";
 import { useI18n } from "@/i18n/i18n";
@@ -24,6 +24,9 @@ function DiagnosePage() {
   const [diagnosis, setDiagnosis] = useState<Diagnosis | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [historyLoading, setHistoryLoading] = useState(true);
+  const [historyError, setHistoryError] = useState(false);
+  const [historyRefresh, setHistoryRefresh] = useState(0);
+  const [success, setSuccess] = useState("");
   const locale = language === "rw" ? "rw-RW" : "en-RW";
 
   useEffect(() => {
@@ -32,26 +35,28 @@ function DiagnosePage() {
     return () => URL.revokeObjectURL(url);
   }, [file]);
   useEffect(() => {
-    if (!session?.access_token) return;
+    const token = session?.access_token;
+    if (!token) { setHistoryLoading(false); return; }
     let active = true;
-    fetch("/api/diagnose", { headers: { Authorization: "Bearer " + session.access_token } })
-      .then(async response => response.ok ? response.json() as Promise<{ history: HistoryItem[] }> : null)
-      .then(data => { if (active && data) setHistory(data.history); })
-      .catch(() => {})
+    setHistoryLoading(true); setHistoryError(false);
+    fetch("/api/diagnose", { headers: { Authorization: "Bearer " + token } })
+      .then(async response => { if (!response.ok) throw new Error("History request failed"); return response.json() as Promise<{ history: HistoryItem[] }>; })
+      .then(data => { if (active) setHistory(data.history); })
+      .catch(() => { if (active) setHistoryError(true); })
       .finally(() => { if (active) setHistoryLoading(false); });
     return () => { active = false; };
-  }, [session?.access_token]);
+  }, [session?.access_token, historyRefresh]);
 
   const pickFile = (event: ChangeEvent<HTMLInputElement>) => {
     const next = event.target.files?.[0] ?? null;
     event.target.value = "";
-    setError(""); setDiagnosis(null);
+    setError(""); setSuccess(""); setDiagnosis(null);
     if (!next) return;
     if (!ACCEPTED_TYPES.includes(next.type) || next.size > MAX_IMAGE_BYTES) { setFile(null); setError(t("invalidImage")); return; }
     setFile(next);
   };
   const submit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); setError(""); setDiagnosis(null);
+    event.preventDefault(); setError(""); setSuccess(""); setDiagnosis(null);
     if (!file) { setError(t("imageRequired")); return; }
     if (!session?.access_token) { setError(t("diagnosisFailed")); return; }
     setBusy(true);
@@ -65,13 +70,18 @@ function DiagnosePage() {
       }
       if (!payload.diagnosis) throw new Error(t("diagnosisFailed"));
       setDiagnosis(payload.diagnosis);
-      const historyResponse = await fetch("/api/diagnose", { headers: { Authorization: "Bearer " + session.access_token } });
-      if (historyResponse.ok) { const data = await historyResponse.json() as { history: HistoryItem[] }; setHistory(data.history); }
+      setSuccess(t("diagnosisSaved"));
+      try {
+        const historyResponse = await fetch("/api/diagnose", { headers: { Authorization: "Bearer " + session.access_token } });
+        if (historyResponse.ok) { const data = await historyResponse.json() as { history: HistoryItem[] }; setHistory(data.history); setHistoryError(false); }
+        else setHistoryError(true);
+      } catch { setHistoryError(true); }
     } catch (caught) { setError(caught instanceof Error ? caught.message : t("diagnosisFailed")); } finally { setBusy(false); }
   };
   const formatDate = (date: string) => new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(date));
   return <div className="diagnose-page">
     <div className="diagnose-heading"><div><span className="diagnose-kicker"><Sparkles size={14}/>{t("diagnose")}</span><h1>{t("diagnoseTitle")}</h1><p>{t("diagnoseIntro")}</p></div><span className="diagnose-leaf"><Leaf size={23}/></span></div>
+    {success && <div className="diagnosis-saved-status" role="status"><Check size={16}/>{success}</div>}
     <div className="diagnose-grid">
       <section className="diagnose-card upload-card">
         <div className="diagnose-card-title"><span className="step-number">1</span><div><h2>{t("choosePhoto")}</h2><p>{t("photoHint")}</p></div></div>
@@ -85,11 +95,11 @@ function DiagnosePage() {
         </form>
       </section>
       <section className="diagnose-card result-card" aria-live="polite">
-        {diagnosis ? <DiagnosisResult result={diagnosis} language={language} t={t}/> : <div className="result-placeholder"><span className="result-placeholder-icon"><Leaf size={25}/></span><h2>{t("diagnosisResult")}</h2><p>{t("resultPlaceholder")}</p><div className="placeholder-lines"><i/><i/><i/></div></div>}
+        {busy ? <div className="diagnose-progress" role="status"><span className="diagnose-progress-icon"><LoaderCircle className="spin" size={24}/></span><h2>{t("analyzing")}</h2><p>{t("analysisInProgress")}</p><div className="placeholder-lines"><i/><i/><i/></div></div> : diagnosis ? <DiagnosisResult result={diagnosis} language={language} t={t}/> : <div className="result-placeholder"><span className="result-placeholder-icon"><Leaf size={25}/></span><h2>{t("diagnosisResult")}</h2><p>{t("resultPlaceholder")}</p><div className="placeholder-lines"><i/><i/><i/></div></div>}
       </section>
     </div>
-    <section className="history-section"><div className="history-heading"><div><span className="diagnose-kicker"><Clock3 size={14}/>{t("history")}</span><h2>{t("history")}</h2></div><span className="history-count">{history.length}</span></div>
-      {historyLoading ? <p className="history-empty">{t("loading")}</p> : history.length === 0 ? <p className="history-empty">{t("noHistory")}</p> : <div className="history-list">{history.map(item => <article className="history-item" key={item.id}><span className="history-item-icon"><Leaf size={17}/></span><div className="history-item-main"><strong>{item.result?.disease_name?.[language] ?? item.crop_name}</strong><span>{item.result?.crop_name?.[language] ?? item.crop_name}</span></div><span className="history-confidence">{item.result?.confidence ?? 0}%</span><time dateTime={item.created_at}>{formatDate(item.created_at)}</time></article>)}</div>}
+    <section className="history-section"><div className="history-heading"><div><span className="diagnose-kicker"><Clock3 size={14}/>{t("history")}</span><h2>{t("history")}</h2></div><div className="history-heading-actions"><span className="history-count">{history.length}</span><Link className="history-view-all" to="/app/history">{t("viewAllHistory")}</Link></div></div>
+      {historyLoading ? <div className="history-loading" role="status"><LoaderCircle className="spin" size={17}/>{t("loading")}</div> : historyError ? <div className="history-load-error" role="alert"><span>{t("historyLoadError")}</span><button type="button" onClick={() => setHistoryRefresh(value => value + 1)}>{t("retry")}</button></div> : history.length === 0 ? <p className="history-empty">{t("noHistory")}</p> : <div className="history-list">{history.map(item => <article className="history-item" key={item.id}><span className="history-item-icon"><Leaf size={17}/></span><div className="history-item-main"><strong>{item.result?.disease_name?.[language] ?? item.crop_name}</strong><span>{item.result?.crop_name?.[language] ?? item.crop_name}</span></div><span className="history-confidence">{item.result?.confidence ?? 0}%</span><time dateTime={item.created_at}>{formatDate(item.created_at)}</time></article>)}</div>}
     </section>
   </div>;
 }

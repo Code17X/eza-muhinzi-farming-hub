@@ -24,10 +24,14 @@ export const translations = {
     diagnosisResult: "Ibyavuye mu isuzuma", resultPlaceholder: "Hitamo ifoto kugira ngo ubone ibisubizo hano.", confidence: "Icyizere cy’isuzuma", treatment: "Uko wakivura", prevention: "Uko wakirinda",
     notCrop: "Iyi foto isa n’itagaragaza igihingwa neza. Fata indi foto y’amababi cyangwa uruti rugaragaza ibimenyetso.",
     resultCaution: "Iyi ni inama y’ibanze yakozwe na AI, si isuzuma ry’impuguke. Niba ikibazo gikomeje, baza umujyanama w’ubuhinzi.",
-    history: "Isuzuma riheruka", noHistory: "Isuzuma ryawe rizagaragara hano.", imageRequired: "Banza uhitemo ifoto y’igihingwa.", invalidImage: "Hitamo ifoto ya PNG, JPG cyangwa WEBP itarengeje 5 MB.",
+    viewAllHistory: "Reba amateka yose", history: "Isuzuma riheruka", noHistory: "Isuzuma ryawe rizagaragara hano.", imageRequired: "Banza uhitemo ifoto y’igihingwa.", invalidImage: "Hitamo ifoto ya PNG, JPG cyangwa WEBP itarengeje 5 MB.",
     diagnosisFailed: "Isuzuma ntiryashobotse. Ongera ugerageze.", rateLimited: "Wakoze amasuzuma menshi. Ongera ugerageze nyuma y’igihe gito.", configAiMissing: "Serivisi y’isuzuma ntirashyirwaho. Menyesha umuyobozi w’urubuga.",
     databaseSetup: "Imbonerahamwe y’amateka ntiyashyizweho. Shyira mu bikorwa migration ya Supabase.",
     confidenceNote: "Ijanisha ni igereranya rya AI gusa.", openCamera: "Fungura kamera",
+    historyPageTitle: "Amateka y’isuzuma", historyIntro: "Reba ibyo wasuzumye mbere n’inama wabonye ku bihingwa byawe.", historyEmptyTitle: "Nta suzuma urakora", historyEmptyBody: "Amafoto uzasuzuma n’inama uzabona bizabikwa hano kugira ngo uzisubiremo igihe cyose.", startDiagnosis: "Tangira isuzuma",
+    historyLoadError: "Amateka ntiyashoboye gufunguka. Ongera ugerageze.", retry: "Ongera ugerageze", loadMore: "Reba ibindi", selectDiagnosis: "Hitamo isuzuma kugira ngo urebe ibisobanuro byaryo.",
+    diagnosisPreview: "Inama: ", diagnosisSaved: "Isuzuma ryabitswe mu mateka yawe.", analysisInProgress: "Ibisubizo birimo gutegurwa. Ibi bishobora gufata akanya gato.",
+    diagnosisDetail: "Ibisobanuro by’isuzuma", savedAt: "Igihe ryakozwe", diagnosisUnavailable: "Ibisobanuro by’iri suzuma ntibiboneka.",
 
   },
   en: {
@@ -53,10 +57,14 @@ export const translations = {
     diagnosisResult: "Diagnosis results", resultPlaceholder: "Choose a photo to see your results here.", confidence: "Estimated confidence", treatment: "What to do", prevention: "How to prevent it",
     notCrop: "This photo doesn’t clearly show a crop. Try another photo of the affected leaves or stem.",
     resultCaution: "This is an AI-generated starting point, not an expert diagnosis. If the problem persists, contact an agricultural extension worker.",
-    history: "Recent diagnoses", noHistory: "Your diagnoses will appear here.", imageRequired: "Choose a crop photo first.", invalidImage: "Choose a PNG, JPG or WEBP photo no larger than 5 MB.",
+    viewAllHistory: "View all history", history: "Recent diagnoses", noHistory: "Your diagnoses will appear here.", imageRequired: "Choose a crop photo first.", invalidImage: "Choose a PNG, JPG or WEBP photo no larger than 5 MB.",
     diagnosisFailed: "We couldn’t complete the diagnosis. Please try again.", rateLimited: "You’ve made several diagnoses. Please try again shortly.", configAiMissing: "The diagnosis service isn’t configured yet. Please contact the site administrator.",
     databaseSetup: "The diagnosis history table isn’t ready. Apply the Supabase migration first.",
     confidenceNote: "This percentage is an AI estimate only.", openCamera: "Open camera",
+    historyPageTitle: "Diagnosis history", historyIntro: "Review earlier crop checks and the advice saved for your farm.", historyEmptyTitle: "No diagnoses yet", historyEmptyBody: "Photos you check and the advice you receive will be saved here so you can revisit them anytime.", startDiagnosis: "Start a diagnosis",
+    historyLoadError: "We couldn’t load your history. Please try again.", retry: "Try again", loadMore: "Load more", selectDiagnosis: "Choose a diagnosis to see its full details.",
+    diagnosisPreview: "Advice: ", diagnosisSaved: "Diagnosis saved to your history.", analysisInProgress: "Your results are being prepared. This may take a few moments.",
+    diagnosisDetail: "Diagnosis details", savedAt: "Date checked", diagnosisUnavailable: "The details for this diagnosis aren’t available.",
 
   },
 } as const;
