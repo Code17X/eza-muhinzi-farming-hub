@@ -17,6 +17,7 @@ import { Route as ApiDiagnoseRouteImport } from './routes/api.diagnose'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppDiagnoseRouteImport } from './routes/app.diagnose'
 import { Route as AppHistoryRouteImport } from './routes/app.history'
+import { Route as AppWeatherRouteImport } from './routes/app.weather'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +59,11 @@ const AppHistoryRoute = AppHistoryRouteImport.update({
   path: '/history',
   getParentRoute: () => AppRoute,
 } as any)
+const AppWeatherRoute = AppWeatherRouteImport.update({
+  id: '/weather',
+  path: '/weather',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/api/diagnose': typeof ApiDiagnoseRoute
   '/app/diagnose': typeof AppDiagnoseRoute
   '/app/history': typeof AppHistoryRoute
+  '/app/weather': typeof AppWeatherRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/api/diagnose': typeof ApiDiagnoseRoute
   '/app/diagnose': typeof AppDiagnoseRoute
   '/app/history': typeof AppHistoryRoute
+  '/app/weather': typeof AppWeatherRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/api/diagnose': typeof ApiDiagnoseRoute
   '/app/diagnose': typeof AppDiagnoseRoute
   '/app/history': typeof AppHistoryRoute
+  '/app/weather': typeof AppWeatherRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/api/diagnose'
     | '/app/diagnose'
     | '/app/history'
+    | '/app/weather'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/api/diagnose'
     | '/app/diagnose'
     | '/app/history'
+    | '/app/weather'
     | '/app'
   id:
     | '__root__'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/api/diagnose'
     | '/app/diagnose'
     | '/app/history'
+    | '/app/weather'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
@@ -187,18 +199,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHistoryRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/weather': {
+      id: '/app/weather'
+      path: '/weather'
+      fullPath: '/app/weather'
+      preLoaderRoute: typeof AppWeatherRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
   AppDiagnoseRoute: typeof AppDiagnoseRoute
   AppHistoryRoute: typeof AppHistoryRoute
+  AppWeatherRoute: typeof AppWeatherRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppDiagnoseRoute: AppDiagnoseRoute,
   AppHistoryRoute: AppHistoryRoute,
+  AppWeatherRoute: AppWeatherRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
