@@ -17,6 +17,7 @@ import { Route as ApiDiagnoseRouteImport } from './routes/api.diagnose'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppDiagnoseRouteImport } from './routes/app.diagnose'
 import { Route as AppHistoryRouteImport } from './routes/app.history'
+import { Route as AppPricesRouteImport } from './routes/app.prices'
 import { Route as AppWeatherRouteImport } from './routes/app.weather'
 
 const IndexRoute = IndexRouteImport.update({
@@ -59,6 +60,11 @@ const AppHistoryRoute = AppHistoryRouteImport.update({
   path: '/history',
   getParentRoute: () => AppRoute,
 } as any)
+const AppPricesRoute = AppPricesRouteImport.update({
+  id: '/prices',
+  path: '/prices',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppWeatherRoute = AppWeatherRouteImport.update({
   id: '/weather',
   path: '/weather',
@@ -73,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/api/diagnose': typeof ApiDiagnoseRoute
   '/app/diagnose': typeof AppDiagnoseRoute
   '/app/history': typeof AppHistoryRoute
+  '/app/prices': typeof AppPricesRoute
   '/app/weather': typeof AppWeatherRoute
   '/app/': typeof AppIndexRoute
 }
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/api/diagnose': typeof ApiDiagnoseRoute
   '/app/diagnose': typeof AppDiagnoseRoute
   '/app/history': typeof AppHistoryRoute
+  '/app/prices': typeof AppPricesRoute
   '/app/weather': typeof AppWeatherRoute
   '/app': typeof AppIndexRoute
 }
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/api/diagnose': typeof ApiDiagnoseRoute
   '/app/diagnose': typeof AppDiagnoseRoute
   '/app/history': typeof AppHistoryRoute
+  '/app/prices': typeof AppPricesRoute
   '/app/weather': typeof AppWeatherRoute
   '/app/': typeof AppIndexRoute
 }
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/api/diagnose'
     | '/app/diagnose'
     | '/app/history'
+    | '/app/prices'
     | '/app/weather'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/api/diagnose'
     | '/app/diagnose'
     | '/app/history'
+    | '/app/prices'
     | '/app/weather'
     | '/app'
   id:
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/api/diagnose'
     | '/app/diagnose'
     | '/app/history'
+    | '/app/prices'
     | '/app/weather'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -199,6 +211,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHistoryRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/prices': {
+      id: '/app/prices'
+      path: '/prices'
+      fullPath: '/app/prices'
+      preLoaderRoute: typeof AppPricesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/weather': {
       id: '/app/weather'
       path: '/weather'
@@ -212,6 +231,7 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppDiagnoseRoute: typeof AppDiagnoseRoute
   AppHistoryRoute: typeof AppHistoryRoute
+  AppPricesRoute: typeof AppPricesRoute
   AppWeatherRoute: typeof AppWeatherRoute
   AppIndexRoute: typeof AppIndexRoute
 }
@@ -219,6 +239,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppDiagnoseRoute: AppDiagnoseRoute,
   AppHistoryRoute: AppHistoryRoute,
+  AppPricesRoute: AppPricesRoute,
   AppWeatherRoute: AppWeatherRoute,
   AppIndexRoute: AppIndexRoute,
 }

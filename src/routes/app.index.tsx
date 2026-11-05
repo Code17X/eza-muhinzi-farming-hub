@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, CloudSun, Leaf, Sprout } from "lucide-react";
+import { ArrowUpRight, Banknote, CloudSun, Leaf } from "lucide-react";
 import { useI18n } from "@/i18n/i18n";
 
 export const Route = createFileRoute("/app/")({ component: AppHome });
@@ -10,7 +10,7 @@ function AppHome() {
     <div className="dashboard-actions">
       <Link className="dashboard-action-card" to="/app/diagnose"><span className="dashboard-action-icon"><Leaf size={21}/></span><span className="dashboard-action-copy"><strong>{t("diagnose")}</strong><small>{t("dashboardDiagnoseBody")}</small></span><ArrowUpRight size={18}/></Link>
       <Link className="dashboard-action-card" to="/app/weather"><span className="dashboard-action-icon"><CloudSun size={21}/></span><span className="dashboard-action-copy"><strong>{t("weather")}</strong><small>{t("dashboardWeatherBody")}</small></span><ArrowUpRight size={18}/></Link>
-      <div className="dashboard-action-card dashboard-action-soon"><span className="dashboard-action-icon"><Sprout size={21}/></span><span className="dashboard-action-copy"><strong>{t("marketPrices")}</strong><small>{t("marketPricesBody")}</small></span><span className="dashboard-coming-soon">{t("comingSoon")}</span></div>
+      <Link className="dashboard-action-card" to="/app/prices"><span className="dashboard-action-icon"><Banknote size={21}/></span><span className="dashboard-action-copy"><strong>{t("marketPrices")}</strong><small>{t("marketPricesBody")}</small></span><ArrowUpRight size={18}/></Link>
     </div>
   </section>;
 }
