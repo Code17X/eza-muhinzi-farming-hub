@@ -25,6 +25,6 @@ function AppLayout() {
   if (loading || !configured || !session) return <main className="app-loading" aria-live="polite">{t("loading")}</main>;
   return <div className="app-shell">
     <header className="app-header"><Link className="brand-mark" to="/app"><span className="brand-symbol"><Sprout size={19}/></span><span>{t("brand")}</span></Link><nav className="app-nav"><Link to="/app">{t("dashboard")}</Link><Link to="/app/diagnose">{t("diagnose")}</Link><Link to="/app/weather">{t("weather")}</Link></nav><div className="app-header-actions"><LanguageSwitcher /><button className="button button-quiet" onClick={signOut}><LogOut size={16}/><span>{t("signOut")}</span></button></div></header>
-    <main className="app-content"><div className="app-welcome-card"><div className="app-icon"><Sprout size={26}/></div><p className="eyebrow">{t("dashboard")}</p><h1>{t("appWelcome")}</h1><p>{t("appBody")}</p><span className="account-email">{session?.user.email}</span></div><Outlet /></main>
+    <main className="app-content"><Outlet /></main>
   </div>;
 }
