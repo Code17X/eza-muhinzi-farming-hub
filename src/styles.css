@@ -448,7 +448,105 @@ body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSyst
   .app-content { padding-top: clamp(22px,6vw,32px); }
 }
 
+<<<<<<< HEAD
 /* ===== Premium theme: Deep forest + gold ===== */
+/* Phase 7 – Admin tools */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.admin-stats article,
+.admin-price-list > article {
+  padding: 18px;
+  border: 1px solid var(--hairline, #e1e7dc);
+  border-radius: var(--r-card, 12px);
+  background: #fff;
+}
+.admin-stats article {
+  display: grid;
+  gap: 8px;
+}
+.admin-stats span,
+.admin-price-list small {
+  color: var(--ink-soft, #778276);
+  font-size: 12px;
+}
+.admin-stats strong {
+  color: var(--forest-700, #28543a);
+  font-size: 24px;
+}
+.admin-market {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+}
+.admin-market h2 {
+  margin: 0 0 14px;
+  color: var(--forest-950, #344b38);
+  font-size: 17px;
+}
+.admin-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.admin-form label {
+  display: grid;
+  gap: 5px;
+  color: var(--ink-soft, #536154);
+  font-size: 11px;
+  font-weight: 650;
+}
+.admin-form input:not([type="checkbox"]) {
+  min-width: 0;
+  height: 40px;
+  padding: 0 9px;
+  border: 1px solid var(--hairline, #dce4d8);
+  border-radius: 8px;
+  font: inherit;
+}
+.admin-form .admin-active {
+  display: flex;
+  align-items: center;
+}
+.admin-form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+}
+.admin-price-list > article {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.admin-price-list > article span {
+  display: grid;
+  gap: 5px;
+}
+.admin-price-list > article strong {
+  color: var(--forest-950, #344b38);
+}
+.admin-page .diagnose-card {
+  padding: 22px;
+}
+@media (max-width: 760px) {
+  .admin-market {
+    grid-template-columns: 1fr;
+  }
+  .admin-stats {
+    gap: 8px;
+  }
+  .admin-stats article {
+    padding: 12px;
+  }
+  .admin-form {
+    grid-template-columns: 1fr;
+  }
+}
 :root {
   --forest-950: oklch(0.24 0.045 158);
   --forest-900: oklch(0.29 0.05 156);
@@ -565,3 +663,6 @@ h1, h2, .hero h1, .section-heading h2, .auth-heading h1 { font-family: var(--fon
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 @media (max-width: 760px) { .app-nav { padding: 3px; overflow-x: auto; } .app-nav a { padding: 6px 9px; } }
 .site-nav > a.button-primary { color: var(--cream); } .site-nav > a.button-primary:hover { color: var(--gold); }
+=======
+.admin-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0}.admin-stats article,.admin-price-list>article{padding:18px;border:1px solid #e1e7dc;border-radius:12px;background:#fff}.admin-stats article{display:grid;gap:8px}.admin-stats span,.admin-price-list small{color:#778276;font-size:12px}.admin-stats strong{color:#28543a;font-size:24px}.admin-market{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}.admin-market h2{margin:0 0 14px;color:#344b38;font-size:17px}.admin-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.admin-form label{display:grid;gap:5px;color:#536154;font-size:11px;font-weight:650}.admin-form input:not([type=checkbox]){min-width:0;height:40px;padding:0 9px;border:1px solid #dce4d8;border-radius:8px;font:inherit}.admin-form .admin-active{display:flex;align-items:center}.admin-form-actions{grid-column:1/-1;display:flex;gap:8px}.admin-price-list>article{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.admin-price-list>article span{display:grid;gap:5px}.admin-price-list>article strong{color:#344b38}.admin-page .diagnose-card{padding:22px}@media(max-width:760px){.admin-market{grid-template-columns:1fr}.admin-stats{gap:8px}.admin-stats article{padding:12px}.admin-form{grid-template-columns:1fr}}
+>>>>>>> 01daba5 (feat: Phase 7 – admin tools with market price management)

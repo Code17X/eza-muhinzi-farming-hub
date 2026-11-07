@@ -1,4 +1,4 @@
-export type SupabaseUser = { id: string; email?: string; user_metadata?: Record<string, unknown> };
+export type SupabaseUser = { id: string; email?: string; user_metadata?: Record<string, unknown>; app_metadata?: Record<string, unknown> };
 export type SupabaseSession = { access_token: string; refresh_token: string; expires_at: number; user: SupabaseUser };
 type AuthEvent = "INITIAL_SESSION" | "SIGNED_IN" | "SIGNED_OUT" | "TOKEN_REFRESHED";
 type Listener = (event: AuthEvent, session: SupabaseSession | null) => void;

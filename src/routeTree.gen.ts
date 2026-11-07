@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as ApiAdminRouteImport } from './routes/api.admin'
 import { Route as ApiDiagnoseRouteImport } from './routes/api.diagnose'
 import { Route as ApiLivestockRouteImport } from './routes/api.livestock'
 import { Route as AppIndexRouteImport } from './routes/app.index'
@@ -21,6 +22,7 @@ import { Route as AppHistoryRouteImport } from './routes/app.history'
 import { Route as AppLivestockRouteImport } from './routes/app.livestock'
 import { Route as AppPricesRouteImport } from './routes/app.prices'
 import { Route as AppWeatherRouteImport } from './routes/app.weather'
+import { Route as AppAdminIndexRouteImport } from './routes/app.admin.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +42,11 @@ const LoginRoute = LoginRouteImport.update({
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminRoute = ApiAdminRouteImport.update({
+  id: '/api/admin',
+  path: '/api/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiDiagnoseRoute = ApiDiagnoseRouteImport.update({
@@ -82,12 +89,18 @@ const AppWeatherRoute = AppWeatherRouteImport.update({
   path: '/weather',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAdminIndexRoute = AppAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/api/admin': typeof ApiAdminRoute
   '/api/diagnose': typeof ApiDiagnoseRoute
   '/api/livestock': typeof ApiLivestockRoute
   '/app/diagnose': typeof AppDiagnoseRoute
@@ -96,11 +109,13 @@ export interface FileRoutesByFullPath {
   '/app/prices': typeof AppPricesRoute
   '/app/weather': typeof AppWeatherRoute
   '/app/': typeof AppIndexRoute
+  '/app/admin/': typeof AppAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/api/admin': typeof ApiAdminRoute
   '/api/diagnose': typeof ApiDiagnoseRoute
   '/api/livestock': typeof ApiLivestockRoute
   '/app/diagnose': typeof AppDiagnoseRoute
@@ -109,6 +124,7 @@ export interface FileRoutesByTo {
   '/app/prices': typeof AppPricesRoute
   '/app/weather': typeof AppWeatherRoute
   '/app': typeof AppIndexRoute
+  '/app/admin': typeof AppAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,6 +132,7 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/api/admin': typeof ApiAdminRoute
   '/api/diagnose': typeof ApiDiagnoseRoute
   '/api/livestock': typeof ApiLivestockRoute
   '/app/diagnose': typeof AppDiagnoseRoute
@@ -124,6 +141,7 @@ export interface FileRoutesById {
   '/app/prices': typeof AppPricesRoute
   '/app/weather': typeof AppWeatherRoute
   '/app/': typeof AppIndexRoute
+  '/app/admin/': typeof AppAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -132,6 +150,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/login'
     | '/signup'
+    | '/api/admin'
     | '/api/diagnose'
     | '/api/livestock'
     | '/app/diagnose'
@@ -140,11 +159,13 @@ export interface FileRouteTypes {
     | '/app/prices'
     | '/app/weather'
     | '/app/'
+    | '/app/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
     | '/signup'
+    | '/api/admin'
     | '/api/diagnose'
     | '/api/livestock'
     | '/app/diagnose'
@@ -153,12 +174,14 @@ export interface FileRouteTypes {
     | '/app/prices'
     | '/app/weather'
     | '/app'
+    | '/app/admin'
   id:
     | '__root__'
     | '/'
     | '/app'
     | '/login'
     | '/signup'
+    | '/api/admin'
     | '/api/diagnose'
     | '/api/livestock'
     | '/app/diagnose'
@@ -167,6 +190,7 @@ export interface FileRouteTypes {
     | '/app/prices'
     | '/app/weather'
     | '/app/'
+    | '/app/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -174,6 +198,7 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
+  ApiAdminRoute: typeof ApiAdminRoute
   ApiDiagnoseRoute: typeof ApiDiagnoseRoute
   ApiLivestockRoute: typeof ApiLivestockRoute
 }
@@ -206,6 +231,13 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin': {
+      id: '/api/admin'
+      path: '/api/admin'
+      fullPath: '/api/admin'
+      preLoaderRoute: typeof ApiAdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/diagnose': {
@@ -264,6 +296,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppWeatherRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/admin/': {
+      id: '/app/admin/'
+      path: '/admin'
+      fullPath: '/app/admin/'
+      preLoaderRoute: typeof AppAdminIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -274,6 +313,7 @@ interface AppRouteChildren {
   AppPricesRoute: typeof AppPricesRoute
   AppWeatherRoute: typeof AppWeatherRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppAdminIndexRoute: typeof AppAdminIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -283,6 +323,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppPricesRoute: AppPricesRoute,
   AppWeatherRoute: AppWeatherRoute,
   AppIndexRoute: AppIndexRoute,
+  AppAdminIndexRoute: AppAdminIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -292,6 +333,7 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
+  ApiAdminRoute: ApiAdminRoute,
   ApiDiagnoseRoute: ApiDiagnoseRoute,
   ApiLivestockRoute: ApiLivestockRoute,
 }
