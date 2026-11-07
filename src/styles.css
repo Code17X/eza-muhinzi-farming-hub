@@ -438,3 +438,12 @@ body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSyst
   .weather-current-card { padding: 20px 16px 17px; }
   .diagnose-card { padding: 18px; }
 }
+
+/* Phase 6: installable mobile app ergonomics */
+@media(max-width:760px) {
+  .app-header-actions .button, .app-header-actions .language-picker { min-height: 44px; }
+  .app-nav a { min-height: 44px; display: inline-flex; align-items: center; }
+  .button, .upload-actions button, .remove-photo { min-height: 44px; }
+  .auth-form input, .form-input, .weather-location-select select { min-height: 46px; }
+  .app-content { padding-top: clamp(22px,6vw,32px); }
+}

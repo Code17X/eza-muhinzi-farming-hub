@@ -81,6 +81,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "theme-color", content: "#28543a" },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
       { title: "Eza Muhinzi | Ubuhinzi bw'Ikoranabuhanga" },
       { name: "description", content: "Practical digital tools and trusted knowledge to help farmers grow stronger harvests. Ibikoresho by'ikoranabuhanga n'ubumenyi bifasha abahinzi kongera umusaruro." },
       { name: "author", content: "Eza Muhinzi" },
@@ -97,6 +101,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "icon", href: "/icons/icon-192.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/icons/icon-192.svg" },
     ],
   }),
   shellComponent: RootShell,
@@ -132,6 +139,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useEffect(() => {
+    if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+      void navigator.serviceWorker.register("/sw.js").catch(error => console.warn("Offline support could not be enabled", error));
+    }
+  }, []);
   return (
     <I18nProvider>
       <AuthProvider>

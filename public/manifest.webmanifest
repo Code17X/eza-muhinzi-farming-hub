@@ -1,0 +1,17 @@
+{
+  "id": "/",
+  "name": "Eza Muhinzi – Farming Tools",
+  "short_name": "Eza Muhinzi",
+  "description": "Practical digital tools and trusted knowledge for farmers in Rwanda.",
+  "lang": "rw",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7f7f0",
+  "theme_color": "#28543a",
+  "icons": [
+    { "src": "/icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "/icons/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
