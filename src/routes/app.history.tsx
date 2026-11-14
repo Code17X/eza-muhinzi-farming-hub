@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { pageHead } from "@/lib/page-head";
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertCircle, ArrowRight, CalendarDays, CheckCircle2, Clock3, Leaf, LoaderCircle, Sprout } from "lucide-react";
@@ -10,7 +12,7 @@ type HistoryItem = { id: string; crop_name: string; result: Diagnosis; created_a
 type HistoryResponse = { history: HistoryItem[]; total: number; error?: string };
 const PAGE_SIZE = 25;
 
-export const Route = createFileRoute("/app/history")({ component: DiagnosisHistoryPage });
+export const Route = createFileRoute("/app/history")({head: () => pageHead("Diagnosis history", "Review your saved crop diagnoses, treatment advice and prevention tips."),  component: DiagnosisHistoryPage });
 function DiagnosisHistoryPage() {
   const { session } = useAuth();
   const { t, language } = useI18n();
@@ -54,19 +56,19 @@ function DiagnosisHistoryPage() {
       <Link className="button button-primary history-new-diagnosis" to="/app/diagnose"><Sprout size={16}/>{t("startDiagnosis")}</Link>
     </header>
 
-    {loading ? <div className="history-page-loading" role="status"><LoaderCircle className="spin" size={20}/><span>{t("loading")}</span></div> : loadError ? <div className="history-page-error" role="alert"><AlertCircle size={20}/><div><strong>{t("historyLoadError")}</strong><p>{t("diagnosisFailed")}</p><button className="button button-outline" type="button" onClick={() => setRefresh(value => value + 1)}>{t("retry")}</button></div></div> : items.length === 0 ? <section className="history-empty-state"><span className="history-empty-icon"><Leaf size={27}/></span><p className="eyebrow">{t("historyPageTitle")}</p><h2>{t("historyEmptyTitle")}</h2><p>{t("historyEmptyBody")}</p><Link className="button button-primary" to="/app/diagnose">{t("startDiagnosis")}<ArrowRight size={16}/></Link></section> : <div className="history-page-grid">
+    {loading ? <div className="history-page-loading" role="status"><LoaderCircle className="spin" size={20}/><span>{t("loading")}</span></div> : loadError ? <div className="history-page-error" role="alert"><AlertCircle size={20}/><div><strong>{t("historyLoadError")}</strong><p>{t("diagnosisFailed")}</p><Button variant="ghost" className="button button-outline" type="button" onClick={() => setRefresh(value => value + 1)}>{t("retry")}</Button></div></div> : items.length === 0 ? <section className="history-empty-state"><span className="history-empty-icon"><Leaf size={27}/></span><p className="eyebrow">{t("historyPageTitle")}</p><h2>{t("historyEmptyTitle")}</h2><p>{t("historyEmptyBody")}</p><Link className="button button-primary" to="/app/diagnose">{t("startDiagnosis")}<ArrowRight size={16}/></Link></section> : <div className="history-page-grid">
       <section className="history-page-list" aria-label={t("historyPageTitle")}>
         <div className="history-page-list-heading"><span>{t("historyPageTitle")}</span><span>{items.length}{total > items.length ? " / " + total : ""}</span></div>
         <div className="history-page-items">{items.map(item => {
           const title = item.result?.disease_name?.[language] ?? item.crop_name;
           const crop = item.result?.crop_name?.[language] ?? item.crop_name;
           const previewText = item.result?.treatment_advice?.[language] ?? "";
-          return <button className={"history-page-item" + (item.id === selectedId ? " is-selected" : "")} type="button" key={item.id} aria-pressed={item.id === selectedId} onClick={() => setSelectedId(item.id)}>
+          return <Button variant="ghost" className={"history-page-item" + (item.id === selectedId ? " is-selected" : "")} type="button" key={item.id} aria-pressed={item.id === selectedId} onClick={() => setSelectedId(item.id)}>
             <span className="history-page-item-icon"><Leaf size={17}/></span><span className="history-page-item-copy"><strong>{title}</strong><span className="history-page-item-crop">{crop}</span><span className="history-page-item-preview">{t("diagnosisPreview")}{shorten(previewText, 104)}</span><span className="history-page-item-date"><CalendarDays size={13}/><time dateTime={item.created_at}>{date(item.created_at)}</time></span></span><span className="history-page-item-confidence">{item.result?.confidence ?? 0}%</span>
-          </button>;
+          </Button>;
         })}</div>
-        {moreError && <div className="history-more-error" role="alert"><span>{t("historyLoadError")}</span><button type="button" onClick={loadMore}>{t("retry")}</button></div>}
-        {items.length < total && <button className="history-load-more" type="button" onClick={loadMore} disabled={loadingMore}>{loadingMore ? <LoaderCircle className="spin" size={16}/> : null}{loadingMore ? t("loading") : t("loadMore")}</button>}
+        {moreError && <div className="history-more-error" role="alert"><span>{t("historyLoadError")}</span><Button variant="ghost" type="button" onClick={loadMore}>{t("retry")}</Button></div>}
+        {items.length < total && <Button variant="ghost" className="history-load-more" type="button" onClick={loadMore} disabled={loadingMore}>{loadingMore ? <LoaderCircle className="spin" size={16}/> : null}{loadingMore ? t("loading") : t("loadMore")}</Button>}
       </section>
       <aside className="history-detail-panel" aria-live="polite">
         {selected ? <HistoryDetails item={selected} language={language} dateLabel={date(selected.created_at)} t={t}/> : <div className="history-detail-placeholder"><span className="history-empty-icon"><CheckCircle2 size={24}/></span><p>{t("selectDiagnosis")}</p></div>}

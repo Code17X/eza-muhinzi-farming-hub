@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { pageHead } from "@/lib/page-head";
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Camera, Check, Clock3, ImagePlus, Leaf, LoaderCircle, ShieldCheck, Sparkles, Upload, X } from "lucide-react";
@@ -10,7 +12,7 @@ type HistoryItem = { id: string; crop_name: string; result: Diagnosis; created_a
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
-export const Route = createFileRoute("/app/diagnose")({ component: DiagnosePage });
+export const Route = createFileRoute("/app/diagnose")({head: () => pageHead("Crop diagnosis", "Submit a crop photo for health advice and review your saved diagnoses."),  component: DiagnosePage });
 function DiagnosePage() {
   const { t, language } = useI18n();
   const { session } = useAuth();
@@ -88,10 +90,10 @@ function DiagnosePage() {
         <form onSubmit={submit}>
           <input ref={fileInput} className="visually-hidden-input" type="file" accept="image/jpeg,image/png,image/webp" onChange={pickFile} />
           <input ref={cameraInput} className="visually-hidden-input" type="file" accept="image/jpeg,image/png,image/webp" capture="environment" onChange={pickFile} />
-          {preview ? <div className="photo-preview"><img src={preview} alt={t("choosePhoto")} /><button className="remove-photo" type="button" aria-label={t("removePhoto")} onClick={() => setFile(null)}><X size={16}/></button><div className="photo-ready"><Check size={14}/>{file?.name}</div></div> : <div className="upload-dropzone"><span className="upload-icon"><ImagePlus size={25}/></span><strong>{t("choosePhoto")}</strong><small>{t("photoHint")}</small><div className="upload-actions"><button type="button" className="button button-outline" onClick={() => fileInput.current?.click()}><Upload size={16}/>{t("choosePhoto")}</button><button type="button" className="button button-outline" onClick={() => cameraInput.current?.click()}><Camera size={16}/>{t("takePhoto")}</button></div></div>}
+          {preview ? <div className="photo-preview"><img src={preview} alt={t("choosePhoto")} /><Button variant="ghost" className="remove-photo" type="button" aria-label={t("removePhoto")} onClick={() => setFile(null)}><X size={16}/></Button><div className="photo-ready"><Check size={14}/>{file?.name}</div></div> : <div className="upload-dropzone"><span className="upload-icon"><ImagePlus size={25}/></span><strong>{t("choosePhoto")}</strong><small>{t("photoHint")}</small><div className="upload-actions"><Button variant="ghost" type="button" className="button button-outline" onClick={() => fileInput.current?.click()}><Upload size={16}/>{t("choosePhoto")}</Button><Button variant="ghost" type="button" className="button button-outline" onClick={() => cameraInput.current?.click()}><Camera size={16}/>{t("takePhoto")}</Button></div></div>}
           <label className="crop-select-label">{t("crop")}<select value={crop} onChange={event => setCrop(event.target.value)}><option value="maize">{t("cropCorn")}</option><option value="beans">{t("cropBeans")}</option><option value="cassava">{t("cropCassava")}</option><option value="potato">{t("cropPotato")}</option><option value="other">{t("cropOther")}</option></select></label>
           {error && <div className="diagnose-error" role="alert">{error}</div>}
-          <button className="button button-primary diagnose-submit" type="submit" disabled={busy}>{busy ? <><LoaderCircle className="spin" size={17}/>{t("analyzing")}</> : <><Sparkles size={17}/>{t("analyze")}</>}</button>
+          <Button variant="ghost" className="button button-primary diagnose-submit" type="submit" disabled={busy}>{busy ? <><LoaderCircle className="spin" size={17}/>{t("analyzing")}</> : <><Sparkles size={17}/>{t("analyze")}</>}</Button>
         </form>
       </section>
       <section className="diagnose-card result-card" aria-live="polite">
@@ -99,7 +101,7 @@ function DiagnosePage() {
       </section>
     </div>
     <section className="history-section"><div className="history-heading"><div><span className="diagnose-kicker"><Clock3 size={14}/>{t("history")}</span><h2>{t("history")}</h2></div><div className="history-heading-actions"><span className="history-count">{history.length}</span><Link className="history-view-all" to="/app/history">{t("viewAllHistory")}</Link></div></div>
-      {historyLoading ? <div className="history-loading" role="status"><LoaderCircle className="spin" size={17}/>{t("loading")}</div> : historyError ? <div className="history-load-error" role="alert"><span>{t("historyLoadError")}</span><button type="button" onClick={() => setHistoryRefresh(value => value + 1)}>{t("retry")}</button></div> : history.length === 0 ? <p className="history-empty">{t("noHistory")}</p> : <div className="history-list">{history.map(item => <article className="history-item" key={item.id}><span className="history-item-icon"><Leaf size={17}/></span><div className="history-item-main"><strong>{item.result?.disease_name?.[language] ?? item.crop_name}</strong><span>{item.result?.crop_name?.[language] ?? item.crop_name}</span></div><span className="history-confidence">{item.result?.confidence ?? 0}%</span><time dateTime={item.created_at}>{formatDate(item.created_at)}</time></article>)}</div>}
+      {historyLoading ? <div className="history-loading" role="status"><LoaderCircle className="spin" size={17}/>{t("loading")}</div> : historyError ? <div className="history-load-error" role="alert"><span>{t("historyLoadError")}</span><Button variant="ghost" type="button" onClick={() => setHistoryRefresh(value => value + 1)}>{t("retry")}</Button></div> : history.length === 0 ? <p className="history-empty">{t("noHistory")}</p> : <div className="history-list">{history.map(item => <article className="history-item" key={item.id}><span className="history-item-icon"><Leaf size={17}/></span><div className="history-item-main"><strong>{item.result?.disease_name?.[language] ?? item.crop_name}</strong><span>{item.result?.crop_name?.[language] ?? item.crop_name}</span></div><span className="history-confidence">{item.result?.confidence ?? 0}%</span><time dateTime={item.created_at}>{formatDate(item.created_at)}</time></article>)}</div>}
     </section>
   </div>;
 }

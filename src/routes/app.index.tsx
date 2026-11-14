@@ -1,8 +1,9 @@
+import { pageHead } from "@/lib/page-head";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Banknote, CloudSun, Leaf, HeartPulse } from "lucide-react";
 import { useI18n } from "@/i18n/i18n";
 
-export const Route = createFileRoute("/app/")({ component: AppHome });
+export const Route = createFileRoute("/app/")({head: () => pageHead("Farmer dashboard", "Your crop diagnosis, livestock advice, local weather and market price tools in one place."),  component: AppHome });
 function AppHome() {
   const { t } = useI18n();
   return <section className="dashboard-home">

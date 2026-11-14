@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep visual refreshes in shared CSS tokens and presentation markup; preserve existing state, requests, and form handlers.
+- Use the shared static pageHead helper for leaf-page metadata so titles and descriptions remain page-specific without reading private data.
