@@ -1,10 +1,12 @@
+import { Button } from "@/components/ui/button";
+import { pageHead } from "@/lib/page-head";
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertCircle, Banknote, MapPin, RefreshCw, Search } from "lucide-react";
 import { loadMarketPrices, type MarketPrice } from "@/features/prices/market-prices";
 import { useI18n } from "@/i18n/i18n";
 
-export const Route = createFileRoute("/app/prices")({ component: PricesPage });
+export const Route = createFileRoute("/app/prices")({head: () => pageHead("Market prices", "Browse crop prices, market locations and source information for Rwanda."),  component: PricesPage });
 
 function PricesPage() {
   const { t, language } = useI18n();
@@ -38,7 +40,7 @@ function PricesPage() {
     <header className="prices-heading"><div><span className="diagnose-kicker"><Banknote size={15}/>{t("marketPrices")}</span><h1>{t("pricesTitle")}</h1><p>{t("pricesIntro")}</p></div></header>
     <label className="prices-search"><Search size={17}/><input aria-label={t("pricesSearch")} type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder={t("pricesSearch")} /></label>
     {loading ? <div className="prices-state" role="status"><RefreshCw className="spin" size={21}/><span>{t("pricesLoading")}</span></div>
-      : error ? <div className="prices-state prices-error" role="alert"><AlertCircle size={22}/><div><p>{t("pricesError")}</p><button className="button button-outline" type="button" onClick={() => setRefresh(value => value + 1)}><RefreshCw size={15}/>{t("retry")}</button></div></div>
+      : error ? <div className="prices-state prices-error" role="alert"><AlertCircle size={22}/><div><p>{t("pricesError")}</p><Button variant="ghost" className="button button-outline" type="button" onClick={() => setRefresh(value => value + 1)}><RefreshCw size={15}/>{t("retry")}</Button></div></div>
       : filteredPrices.length === 0 ? <div className="prices-state prices-empty"><Search size={22}/><p>{query.trim() ? t("pricesNoResults") : t("pricesEmpty")}</p></div>
       : <div className="prices-grid">{filteredPrices.map(item => <PriceCard key={item.id} item={item} language={language} locale={locale} updatedLabel={t("pricesUpdated")} />)}</div>}
     <p className="prices-note">{t("pricesDataNote")}</p>

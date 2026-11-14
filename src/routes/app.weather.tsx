@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { pageHead } from "@/lib/page-head";
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertCircle, Cloud, CloudDrizzle, CloudFog, CloudLightning, CloudRain, CloudSun, Droplets, MapPin, RefreshCw, Snowflake, Sun, Thermometer, Wind } from "lucide-react";
@@ -22,7 +24,7 @@ const LOCATIONS: Location[] = [
   { id: "rusizi", en: "Rusizi", rw: "Rusizi", latitude: -2.4846, longitude: 28.9075 },
 ];
 
-export const Route = createFileRoute("/app/weather")({ component: WeatherPage });
+export const Route = createFileRoute("/app/weather")({head: () => pageHead("Local weather", "Local weather conditions and seven-day forecasts for farming locations in Rwanda."),  component: WeatherPage });
 
 function WeatherPage() {
   const { t, language } = useI18n();
@@ -61,7 +63,7 @@ function WeatherPage() {
 
   return <section className="weather-page">
     <header className="weather-heading"><div><span className="diagnose-kicker"><CloudSun size={15}/>{t("weather")}</span><h1>{t("weatherTitle")}</h1><p>{t("weatherIntro")}</p></div><label className="weather-location-select"><span><MapPin size={15}/>{t("weatherLocation")}</span><select value={locationId} onChange={event => setLocationId(event.target.value)}>{LOCATIONS.map(item => <option key={item.id} value={item.id}>{item[language]}</option>)}</select></label></header>
-    {loading ? <div className="weather-state" role="status"><RefreshCw className="spin" size={21}/><span>{t("weatherLoading")}</span></div> : error || !weather ? <div className="weather-state weather-error" role="alert"><AlertCircle size={22}/><div><p>{t("weatherError")}</p><button className="button button-outline" type="button" onClick={() => setRefresh(value => value + 1)}><RefreshCw size={15}/>{t("weatherRetry")}</button></div></div> : <>
+    {loading ? <div className="weather-state" role="status"><RefreshCw className="spin" size={21}/><span>{t("weatherLoading")}</span></div> : error || !weather ? <div className="weather-state weather-error" role="alert"><AlertCircle size={22}/><div><p>{t("weatherError")}</p><Button variant="ghost" className="button button-outline" type="button" onClick={() => setRefresh(value => value + 1)}><RefreshCw size={15}/>{t("weatherRetry")}</Button></div></div> : <>
       <article className="weather-current-card"><div className="weather-current-top"><div><span className="weather-section-label">{t("weatherCurrent")}</span><h2><MapPin size={17}/>{placeName}</h2></div><WeatherIcon code={weather.current.weather_code} size={48}/></div><div className="weather-current-main"><strong>{Math.round(weather.current.temperature_2m)}°</strong><span>{t(weatherKey(weather.current.weather_code))}</span></div><div className="weather-metrics"><WeatherMetric icon={<Droplets size={17}/>} label={t("weatherRainChance")} value={`${Math.round(weather.current.precipitation_probability ?? 0)}%`}/><WeatherMetric icon={<Cloud size={17}/>} label={t("weatherHumidity")} value={`${Math.round(weather.current.relative_humidity_2m)}%`}/><WeatherMetric icon={<Wind size={17}/>} label={t("weatherWind")} value={`${Math.round(weather.current.wind_speed_10m)} km/h`}/></div></article>
       <section className="weather-forecast"><div className="weather-forecast-heading"><div><span className="weather-section-label">{t("weatherForecast")}</span><h2>{placeName}</h2></div><span>{t("weatherSource")}</span></div><div className="weather-forecast-grid">{weather.daily.time.map((day, index) => <article className="weather-day" key={day}><strong>{dayLabel(day, index)}</strong><WeatherIcon code={weather.daily.weather_code[index] ?? 0} size={27}/><span className="weather-day-description">{t(weatherKey(weather.daily.weather_code[index] ?? 0))}</span><div className="weather-day-temperatures"><b>{Math.round(weather.daily.temperature_2m_max[index] ?? 0)}°</b><span>{Math.round(weather.daily.temperature_2m_min[index] ?? 0)}°</span></div><span className="weather-day-rain"><Droplets size={13}/>{Math.round(weather.daily.precipitation_probability_max[index] ?? 0)}%</span></article>)}</div></section>
     </>}

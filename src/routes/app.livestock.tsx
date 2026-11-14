@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { pageHead } from "@/lib/page-head";
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { HeartPulse, LoaderCircle, Sparkles, Stethoscope } from "lucide-react";
@@ -9,7 +11,7 @@ type Advice = { likely_issue: Pair; recommended_actions: Pair[]; veterinarian: P
 const MAX_BYTES = 5 * 1024 * 1024;
 const TYPES = ["image/jpeg", "image/png", "image/webp"];
 
-export const Route = createFileRoute("/app/livestock")({ component: LivestockPage });
+export const Route = createFileRoute("/app/livestock")({head: () => pageHead("Livestock advice", "Describe livestock symptoms and request practical animal care advice."),  component: LivestockPage });
 function LivestockPage() {
   const { t, language } = useI18n(); const { session } = useAuth();
   const [problem, setProblem] = useState(""); const [file, setFile] = useState<File | null>(null); const [busy, setBusy] = useState(false); const [error, setError] = useState(""); const [advice, setAdvice] = useState<Advice | null>(null);
@@ -23,7 +25,7 @@ function LivestockPage() {
         <label className="field-label" htmlFor="livestock-problem">{t("livestockProblem")}</label><textarea id="livestock-problem" className="form-input" rows={6} maxLength={3000} value={problem} onChange={e => setProblem(e.target.value)} placeholder={t("livestockPlaceholder")} />
         <label className="field-label" htmlFor="livestock-image">{t("livestockPhotoOptional")}</label><input id="livestock-image" className="form-input" type="file" accept="image/jpeg,image/png,image/webp" onChange={onFile}/><small>{file ? file.name : t("livestockPhotoHint")}</small>
         {error && <div className="diagnosis-error" role="alert">{error}</div>}
-        <button className="button button-primary diagnose-submit" disabled={busy}>{busy ? <><LoaderCircle size={17} className="spin"/>{t("livestockLoading")}</> : <><Sparkles size={17}/>{t("livestockAsk")}</>}</button>
+        <Button variant="ghost" className="button button-primary diagnose-submit" disabled={busy}>{busy ? <><LoaderCircle size={17} className="spin"/>{t("livestockLoading")}</> : <><Sparkles size={17}/>{t("livestockAsk")}</>}</Button>
       </form></section>
       <section className="diagnose-card result-card" aria-live="polite"><div className="diagnose-card-title"><span className="step-number"><Stethoscope size={17}/></span><div><h2>{t("livestockResult")}</h2><p>{advice ? t("livestockResultHint") : t("livestockEmpty")}</p></div></div>
         {advice && <div className="diagnosis-result"><article><h3>{t("livestockLikelyIssue")}</h3><p>{text(advice.likely_issue)}</p></article><article><h3>{t("livestockActions")}</h3><ul>{advice.recommended_actions.map((action, i) => <li key={i}>{text(action)}</li>)}</ul></article><article><h3>{t("livestockVet")}</h3><p>{text(advice.veterinarian)}</p></article><p className="result-caution">{t("livestockCaution")}</p></div>}

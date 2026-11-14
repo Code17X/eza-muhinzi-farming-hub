@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { getSupabase } from "@/lib/supabase";
@@ -42,7 +43,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       {isSignup && <label>{t("confirmPassword")}<input name="confirmPassword" type="password" autoComplete="new-password" minLength={8} required /></label>}
       {error && <p className="form-message form-error" role="alert">{error}</p>}
       {notice && <p className="form-message form-success" role="status">{notice}</p>}
-      <button className="button button-primary auth-submit" type="submit" disabled={busy}>{busy ? t("loading") : isSignup ? t("signupAction") : t("loginAction")}</button>
+      <Button variant="ghost" className="button button-primary auth-submit" type="submit" disabled={busy}>{busy ? t("loading") : isSignup ? t("signupAction") : t("loginAction")}</Button>
     </form>
     <p className="auth-switch">{isSignup ? t("hasAccount") : t("noAccount")} <Link to={isSignup ? "/login" : "/signup"}>{isSignup ? t("loginLink") : t("createAccount")}</Link></p>
   </section></main>;
